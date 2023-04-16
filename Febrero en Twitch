@@ -1,0 +1,49 @@
+#1 ¿Cuál ha sido la evolución de espectadores (captura a captura) durante el periodo?
+
+import pandas as pd
+
+#opcio 1
+df = pd.read_csv("feb_23_es_simple.csv", sep="\t", usecols=["captured_at", "viewer_count"]) #llegim les variables que ens interessen del df
+df2 = df.groupby("captured_at")["viewer_count"].sum().reset_index()#agrupem les captures en base la audiència sumada
+df2.to_csv("exercici_1.csv") #exportem el nou df a .csv
+
+#2 ¿Cuales son las categorías más vistas y en las que más horas de directo se han realizado?
+
+import pandas as pd
+df = pd.read_csv("feb_23_es_simple.csv", sep="\t", usecols=["captured_at", "viewer_count", "game_name"])#llegim les variables que ens interessen del df inicial
+
+captures = df['game_name'].value_counts().reset_index() #creem nova variable en base a les categories úniques del df
+views = df.groupby("game_name")['viewer_count'].sum().reset_index() #nova variable sobre les categories ordenades pel volum d'audiencia sumat
+captures.rename(columns = {'game_name':'capturas', 'index':'game_name'}, inplace = True)#invertim el nom de les columnes
+df2 = pd.merge(captures, views)#ajuntem les dues variables en una única variable
+df2.to_csv('Exercici_2.csv', index=True) #exportem el nou df a csv
+
+#3 ¿Como han evolucionado (captura a captura) estas categorias a lo largo del mes?
+
+import pandas as pd
+
+df = pd.read_csv("feb_23_es_simple.csv", sep="\t", usecols=["captured_at", "game_name", "viewer_count"])#llegim les variables que ens interessen del df inicial
+df2 = df.groupby(["captured_at","game_name"])["viewer_count"].sum().reset_index()#nova variable amb les dades de captura i categories ordenades en base al volum d'audiència
+df2.to_csv("exercici_3.csv")#exportem el nou df a csv
+
+#4 ¿Cuál es la distribución de los streamers si los clasificamos por volumenes de audiencia y horas realizadas?
+
+import pandas as pd
+
+df = pd.read_csv("feb_23_es_simple.csv", sep="\t", usecols=["captured_at", "viewer_count", "streamer_name"])#llegim les variables que ens interessen del df inicial
+x = df['streamer_name'].value_counts().reset_index()#nova variable on s'agrupen tots els streamers
+y = df.groupby("streamer_name")['viewer_count'].sum().reset_index()#nova variable on ordenem els streamers en base al volum d'audiència
+streams.rename(columns = {'streamer_name':'captures', 'index':'streamer_name'}, inplace = True)#invertim el nom de les columnes
+df2 = pd.merge(x, y)#ajuntem les dues variables en una única
+
+df2.to_csv('Exercici_4.csv', index=True)#exportem el nou df a csv
+
+#5 ¿Cuál ha sido la evolución (captura a captura) de la desviación estándar en el volúmen de espectadores? ¿En qué momentos las audiencias se encuentran más polarizadas y en qué momentos la distribución es más uniforme?
+
+import pandas as pd
+
+df = pd.read_csv("feb_23_es_simple.csv", sep="\t", usecols=["captured_at", "viewer_count", "streamer_name"])#llegim el df en base a les varibles que ens interessen
+
+df2 = df.groupby("captured_at")['viewer_count'].std().round(4).reset_index()#amb la funció .std extraiem la desviació estàndard de l'audiencia
+df2.rename(columns = {'viewer_count':'desviacio'}, inplace = True)
+df2.to_csv('Exercici_5.csv', decimal=',' ,index=True)
