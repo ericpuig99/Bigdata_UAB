@@ -39,11 +39,3 @@ df2 = pd.merge(x, y)#ajuntem les dues variables en una única
 df2.to_csv('Exercici_4.csv', index=True)#exportem el nou df a csv
 
 #5 ¿Cuál ha sido la evolución (captura a captura) de la desviación estándar en el volúmen de espectadores? ¿En qué momentos las audiencias se encuentran más polarizadas y en qué momentos la distribución es más uniforme?
-
-import pandas as pd
-
-df = pd.read_csv("feb_23_es_simple.csv", sep="\t", usecols=["captured_at", "viewer_count", "streamer_name"])#llegim el df en base a les varibles que ens interessen
-
-df2 = df.groupby("captured_at")['viewer_count'].std().round(4).reset_index()#amb la funció .std extraiem la desviació estàndard de l'audiencia
-df2.rename(columns = {'viewer_count':'desviacio'}, inplace = True)
-df2.to_csv('Exercici_5.csv', decimal=',' ,index=True)
