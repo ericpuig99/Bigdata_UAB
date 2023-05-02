@@ -1,4 +1,4 @@
-## repercussió del polític a twitter mitjançant Tableau
+## Repercussió del polític a twitter mitjançant Tableau
 
 A partir de l'extracció de dades amb Python hem volgut analitzar la repercussió dels polítics representats a l'ajuntament de Barcelona a la xarxa social Twitter.
 
