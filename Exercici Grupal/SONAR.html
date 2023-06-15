@@ -30,14 +30,26 @@
     <body>
         <div class="container">
             <header>
-            <p>Autores: Roger Bach, Eric Puig</p>
+            <p>Autores: Roger Bach i Eric Puig</p>
             </header>
                 <h1>Estudi Sonar 2023</h1>
                 <p>Aquest estudi ha estat desenvolupat per Roger Bach i Eric Puig, dos alumnes d'últim curs de Comunicació Interactiva de la Universitat Autònoma de Barcelona. </p>
 		<h3>Motivació o interés</h3>
-		<p> La finalitat d'aquest estudi ve per l'interès a parts iguals dels integrants d'aquest grup amb la música electrònica. Donat el panorama actual a la ciutat de Barcelona on la el gènere d'electrònica cada cop hi té més importància. A més a més, la setmana del 15 de juny té lloc el Festival Sonar on s'hi celebra el 30è aniversari i, per altra banda, la <i>OFFwekk</i> una setmana dedicada a la música electrònica a la ciutat de Barcelona on hi tindran diversos festivals i festes de música electrònica com Brunch, Row, NOART entre d'altres. <br> Aquest estudi té la finalitat d'enllaçar els artistes que participen al Sónar en base a una sèrie de variables a altres artistes i festivals que tenen lloc a tot Europa per a tots aquells usuaris que vulguin visitar altres països de festival en festival amb el subgènere de música electrònica preferida.
+		<p> La finalitat d'aquest estudi ve per l'interès a parts iguals dels integrants d'aquest grup amb la música electrònica. 
+			La setmana del 15 de juny té lloc el Festival Sonar on s'hi celebra el 30è aniversari i, per altra banda, 
+			la <i>OFFwekk</i> una setmana dedicada a la música electrònica a la ciutat de Barcelona on hi tindra lloc diversos festivals i festes de música 
+			electrònica com Brunch, Row, NOART, CIRCOLOCO, Afterlive, entre d'altres. <br> 
+			Aquest estudi té la finalitat de relacionar els artistes que participen al Sónar 2023 en base 
+			a una sèrie de variables que s'han extret de les principals cançons dels artistes publicades a Spotify.
+			Mitjançant aquest anàlisis volem proporcionar informació qualitativa a l'usuari en base als seus gustos músicals dins del gènere de l'electrònica i
+			que aquest pugui definir el seu horari preferit sense la necessitat de conèixer tots els artistes que participen al festival.
+		</p>
                 <h2>Obtenció de dades</h2>
-		<p>Per a l'obtenció de dades d'aquest estudi hem utilitzat la llibreria Spotipy... <br><b>Enllaç al repositori de codi</b></p>
+		<p>Per a l'obtenció de dades d'aquest estudi hem utilitzat el llenguatge Python i l'API Spotipy per extreure les dades de les primeres 10 cançons 
+			que ens oferia la llibreria sobre l'artista. A partir d'aquestes hem extret una sèrie de variables com <ul>Danceability</ul><ul>Valance</ul> 
+		<ul>Loudness</ul><ul>Tempo</ul><ul>Key</ul><ul>Instrumentalness</ul><ul>Acousticness</ul>
+
+<br><b>Enllaç al repositori de codi</b></p>
                 <!-- Exemple de Fragment de codi generat amb http://hilite.me/ -->
                 <div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f92672">import</span> <span style="color: #f8f8f2">capturer.crawler</span> <span style="color: #66d9ef">as</span> <span style="color: #f8f8f2">c</span>
 			<span style="color: #f92672">import</span> <span style="color: #f8f8f2">export</span> <span style="color: #66d9ef">as</span> <span style="color: #f8f8f2">e</span>
@@ -57,6 +69,7 @@
 		
 		<h2>El Dataset</h2>		
     <!-- Ejemplo de codigo de Grafico incrustado-->
+		<script type='module' src='https://eu-west-1a.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js'></script><tableau-viz id='tableau-viz' src='https://eu-west-1a.online.tableau.com/t/treballfinalsonar/views/AnalisisSonar/TempoiLoudness' width='1707' height='887' hide-tabs toolbar='bottom' ></tableau-viz>
 			<div class='tableauPlaceholder' id='viz1681300013018' style='position: relative'><noscript><a href='#'><img alt='Prmedio de streamers por dia ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;pr&#47;promstreamersdia&#47;Prmediodestreamerspordia&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='promstreamersdia&#47;Prmediodestreamerspordia' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;pr&#47;promstreamersdia&#47;Prmediodestreamerspordia&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='es-ES' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1681300013018');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
 		<p>Interpretació del datasat</p>
 
