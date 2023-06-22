@@ -1,0 +1,159 @@
+La llibreria Pytorch és una llibreria lleugera.
+
+
+```python
+# -*- coding: utf-8 -*-
+
+
+!pip install transformers
+
+!pip install torch
+
+!pip install sentencepiece
+
+"""Anem a utilitzar el PIP. Mitjançant una classifficació de text"""
+
+from transformers import pipeline
+
+pipe = pipeline("text-classification")
+result = pipe("asd") #aquesta línia farà que transformers busqui dins dels classificadors de text per aplicar sobre la línia de codi "asd"
+print(result)
+
+pipe = pipeline("translation", model="Helsinki-NLP/opus-mt-ca-en")
+result = pipe("Roger is coming to Bass in the park")
+print(result)
+
+"""Falta un tokenizer. Aquest sistema agafa una frase i la segmenta en tokens."""
+
+pipe = pipeline("translation", model="Helsinki-NLP/opus-mt-ca-en")
+result = pipe("Roger is coming to Bass in the park")
+print(result)
+
+!pip install tqdm
+!pip install pandas
+# pip install transformers
+# pip install torch
+#####
+
+##### DEPENDENCIAS
+# pip install tqdm
+# pip install pandas
+# pip install transformers
+# pip install torch
+#####
+
+##### EJEMPLOS DE MODELOS
+# https://huggingface.co/MMG/xlm-roberta-base-sa-spanish
+# https://huggingface.co/jorgeortizfuentes/spanish_hate_speech
+# https://huggingface.co/francisco-perez-sorrosal/distilbert-base-uncased-finetuned-with-spanish-tweets-clf
+#####
+
+from tqdm import tqdm
+import pandas as pd
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+
+df = pd.read_csv("dataset-inmigrantes-barcelona.csv", nrows=10, usecols=["tweet_id","text"])
+print(df)
+
+# Carregar Model
+tokenizer = AutoTokenizer.from_pretrained("jorgeortizfuentes/spanish_hate_speech")
+model = AutoModelForSequenceClassification.from_pretrained("jorgeortizfuentes/spanish_hate_speech")
+pipe = pipeline("text-classification", model=model, tokenizer=tokenizer)
+
+tweets = df["text"].to_list()
+tweet_id = df["tweet_id"].to_list()
+
+tup_list = []
+
+for tweet, tid in zip(tweets, tweet_id):
+    result = pipe(tweet)
+    print(result)
+    content = result[0]
+    label = content["label"]
+    score = content["score"]
+    tupla = (str(tid), tweet, label, score)
+    tup_list.append(tupla)
+
+
+data = pd.DataFrame.from_records(tup_list, columns=["id", "text", "label", "score"])
+data.to_csv("analysis.csv", index=False)
+
+"""Ara cambiem de model"""
+
+##### DEPENDENCIAS
+# pip install tqdm
+# pip install pandas
+# pip install transformers
+# pip install torch
+#####
+
+##### EJEMPLOS DE MODELOS
+# https://huggingface.co/MMG/xlm-roberta-base-sa-spanish
+# https://huggingface.co/jorgeortizfuentes/spanish_hate_speech
+# https://huggingface.co/francisco-perez-sorrosal/distilbert-base-uncased-finetuned-with-spanish-tweets-clf
+#####
+
+from tqdm import tqdm
+import pandas as pd
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+
+df = pd.read_csv("dataset-inmigrantes-barcelona.csv", usecols=["tweet_id","text"])
+print(df)
+
+# Carregar Model
+tokenizer = AutoTokenizer.from_pretrained("MMG/xlm-roberta-base-sa-spanish")
+model = AutoModelForSequenceClassification.from_pretrained("MMG/xlm-roberta-base-sa-spanish")
+pipe = pipeline("text-classification", model=model, tokenizer=tokenizer)
+
+tweets = df["text"].to_list()
+tweet_id = df["tweet_id"].to_list()
+
+tup_list = []
+
+for tweet, tid in zip(tweets, tweet_id):
+    result = pipe(tweet)
+    print(result)
+    content = result[0]
+    label = content["label"]
+    score = content["score"]
+    tupla = (str(tid), tweet, label, score)
+    tup_list.append(tupla)
+
+
+data = pd.DataFrame.from_records(tup_list, columns=["id", "text", "label", "score"])
+data.to_csv("analysis.csv", index=False)
+## 18/04 
+
+
+
+
+Nem a extreure les dades d'AuronPlay d'un dataset de Twitch España anual.
+
+```Python
+import pandas as pd
+dataset = globe.glob("datasets/twitch_*") #treballem sobre tots els arxius de la carpeta dataset. Tots els arxius comencem amb el nom twitch_ -> * serveix per dir-li al programa que agafi tots els arxius que comencin amb aquell nom
+#ara tenim una llista que conté tots els arxius de la carpeta
+
+for data in datasets:
+	df = pd.read_csv("data")
+	print(df) #el resultat dona un error pandas.errors.parsererror-> vol dir que no es poden processar les dades amb el format desitjat.
+	#els camps dels docs originals estan separats per tabuladors i no per comes.
+
+for data in datasets:
+	df = pd.read_csv(data, sep="\t")
+	df.loc[df["streamer_name"]=="auronplay"]#seleccionem només les dades que siguin d'auronplay
+#hem de crear una nova llista on s'afegeixin les dades
+
+llista=[]
+llista_streamers=["auronplay", "Illojuan"]
+	df = pd.read_csv(data, sep="\t", chunksize=10000)
+	for streamer in llista_streamers:
+		df2=df[df["streamer_name"]==streamer]
+		llista.append(df2)
+		print(df2)
+	
+df_final = pd.concat(llista)
+df_final.to_csv(f"{streamer}-dataset.csv", index=false)
+	
+
+```
