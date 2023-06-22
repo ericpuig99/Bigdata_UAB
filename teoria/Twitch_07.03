@@ -1,0 +1,430 @@
+
+```Python 
+from twitchAPI.twitch import Twitch
+importat json
+
+twitch = Twitch 
+```
+
+```Python
+stream= twitch.get_streams(first=20, language="es")
+print (streams)```
+
+Com a resultat dona una llista de valors en format taula
+
+```python 
+data = streams 
+for d in data: 
+print(d)```
+
+El següent fragment de codi crea un arxiu OUPUT FILE.JSON on hi posa el resultat a dins i el guarda:
+```Python
+ with open("output_file.json", 'w', encoding='utf-8') as f:
+        json.dump(result, f, ensure_ascii=False, indent=4)```
+*** hem d'afegir la llibreria JSON al header.
+Aquest document s'utilitza per analitzar les dades que ens ofereix el codi. En aquest cas ens dona dades del directe.
+
+Ara transformarem les dades en un CSV per interpretar-ho en tableau.
+D'aquestes dades del directe agafarem les següents dades a analtizar:
+- user_id
+- game_name
+- game_id
+- game_name
+- title
+- viewer_count
+- started_at --> és la data de l'inici del stream
+
+*cal conèixer en el moment que s'han extret les dades, per això afegim*:
+- captured_at
+
+```python 
+dades = stream["data"]
+#data es la llibreria de dades del stream
+for dada in dades:
+	user_id = dada["user_id"]
+	user_name = dada ["user_name"]
+	game_id = dada["game_id"]
+	game_name = dada["game_name"]
+	title = dada["title"]
+	viewers_count = dada["viewer_count"]
+	started_at = dada['started_at']
+	is_mature = dada["is_mature"]
+	captured_at = now
+	```
+
+Per conèixer en el moment que hem tret les dades--> 
+```Python
+import datetime
+now = datetime.datetime.now()
+print(now)```
+
+Anem a crear un data frame per passar les dades a CSV
+
+```Python
+import pandas as pd
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   print(df) #variable que conté el contingut que volem imprimir sobre la taula
+				
+				   ```
+
+Hem de guardar fora del for una llista de dataframes buida per afegir les dades imprimides dins de la mateixa llista
+
+```Python
+data_frame = [] #això va fora del for
+
+llista_dataframes.append(df)
+print(llista_dataframes)```
+
+Ara cal concatenar les dades en una mateixa taula pel CSV
+```python
+final_dataframe = pd.concat(llista_dataframes)
+print(final_dataframe)```
+
+Ara exportem les dades a CSV
+```python
+final_dataframe.to_csv("export.csv", index=False)```
+
+
+La API no et permetrà analitzar una serie ilimitada de streams. El màxim nª d'Items és de 100.
+
+L'arxiu JSON, al final, hi ha la "pagination" y "cursor", això ens permet posicionar els streams per després jugar amb el "after", "before", "first".
+
+```Python 
+stream= twitch.get_streams(first=20, language="es", after = "cursor") #el cursor fa referencia a un codi identificatiu.
+```
+
+**Funcions**
+
+Com definir una funció a Python
+```python
+def loquesea():
+	print("hola")
+loquesea() #imprimeix hola
+
+variable = "hola"
+def loquesea(variable):
+	print(variable)
+loquesea(variable) #imprimeix hola
+
+variable = "hola"
+variable_2 = "adeu"
+
+def loquesea(pip, cac):
+	print(pip, cac)
+
+loquesea(variable, variable_2) #imprimeix "hola" i "adeu"
+```
+Podem enviar funcions dins d'una variable???? Ho mirem més tard
+
+Ara volem reutilitzar el següent codi per saber les dades de més de 100 streams
+
+```Python 
+stream= twitch.get_streams(first=20, language="es")
+```
+
+Creem el següent
+
+```python
+data_frame = [] #el treiem fora per no maxacar la llista
+def crida():
+stream= twitch.get_streams(first=100, language="es")
+dades = stream["data"]
+
+
+for dada in dades:
+	user_id = dada["user_id"]
+	user_name = dada ["user_name"]
+	game_id = dada["game_id"]
+	game_name = dada["game_name"]
+	title = dada["title"]
+	viewers_count = dada["viewer_count"]
+	started_at = dada['started_at']
+	is_mature = dada["is_mature"]
+	captured_at = now
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   llista_dataframes.append(df)
+			
+crida()
+
+final_dataframe = pd.concat(llista_dataframe)
+final_dataframe.to_csv("export.csv", index = False)
+print (final_dataframe)
+```
+
+
+Necessitem la segona volta de recol·lecta de dataframes (següent tanda de streams)
+
+```Python
+data_frame = [] #el treiem fora per no maxacar la llista
+def crida():
+stream= twitch.get_streams(first=100, language="es")
+dades = stream["data"]
+
+
+for dada in dades:
+	user_id = dada["user_id"]
+	user_name = dada ["user_name"]
+	game_id = dada["game_id"]
+	game_name = dada["game_name"]
+	title = dada["title"]
+	viewers_count = dada["viewer_count"]
+	started_at = dada['started_at']
+	is_mature = dada["is_mature"]
+	captured_at = now
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   llista_dataframes.append(df)
+				   cursos = streams["pagination"]["cursor"]
+				   print["cursor"] #imprimeix el cursor de cada stream
+	
+crida()
+
+final_dataframe = pd.concat(llista_dataframe)
+final_dataframe.to_csv("export.csv", index = False)
+print (final_dataframe)
+```
+
+
+Seguim
+
+```Python
+data_frame = [] #el treiem fora per no maxacar la llista
+def crida():
+stream= twitch.get_streams(first=100, language="es", after=cursor)
+dades = stream["data"]
+
+
+for dada in dades:
+	user_id = dada["user_id"]
+	user_name = dada ["user_name"]
+	game_id = dada["game_id"]
+	game_name = dada["game_name"]
+	title = dada["title"]
+	viewers_count = dada["viewer_count"]
+	started_at = dada['started_at']
+	is_mature = dada["is_mature"]
+	captured_at = now
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   llista_dataframes.append(df)
+				   cursos = streams["pagination"]["cursor"]
+				   crida(cursor) #aquí falta un valor a cursor
+	
+crida()
+
+final_dataframe = pd.concat(llista_dataframe)
+final_dataframe.to_csv("export.csv", index = False)
+print (final_dataframe)
+```
+
+A la crida anterior no tenim valor al cursor:
+Variables dummy
+
+```Python
+data_frame = [] #el treiem fora per no maxacar la llista
+cursor_dummy = None
+def crida():
+stream= twitch.get_streams(first=100, language="es", after=cursor)
+dades = stream["data"]
+
+
+for dada in dades:
+	user_id = dada["user_id"]
+	user_name = dada ["user_name"]
+	game_id = dada["game_id"]
+	game_name = dada["game_name"]
+	title = dada["title"]
+	viewers_count = dada["viewer_count"]
+	started_at = dada['started_at']
+	is_mature = dada["is_mature"]
+	captured_at = now
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   llista_dataframes.append(df)
+
+
+	cursor = streams["pagination"]["cursor"]
+	crida(cursor) 
+crida(cursor_dummy)
+
+final_dataframe = pd.concat(llista_dataframe)
+final_dataframe.to_csv("export.csv", index = False)
+print (final_dataframe)
+
+```
+
+A la última pàgina no existeix cursor perquè no hi ha pàgina següent, per tant:
+
+```Python
+data_frame = [] #el treiem fora per no maxacar la llista
+cursor_dummy = None
+def crida():
+	stream= twitch.get_streams(first=20, language="ca", after=cursor)
+	dades = stream["data"]
+
+
+		for dada in dades:
+			user_id = dada["user_id"]
+			user_name = dada ["user_name"]
+			game_id = dada["game_id"]
+			game_name = dada["game_name"]
+			title = dada["title"]
+			viewers_count = dada["viewer_count"]
+			started_at = dada['started_at']
+			is_mature = dada["is_mature"]
+			captured_at = now
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   llista_dataframes.append(df)
+				print(len(llista_dataframes))
+				if streams["pagination"]["cursor"]:
+				cursor = streams["pagination"]["cursor"]
+				print(cursor)
+				crida(cursor)
+				
+
+
+	cursor = streams["pagination"]["cursor"]
+	crida(cursor) 
+crida(cursor_dummy)
+
+final_dataframe = pd.concat(llista_dataframe)
+final_dataframe.to_csv("export.csv", index = False)
+print (final_dataframe)
+
+```
+
+La API de Twitch no permet consultes al servidor tot el rato, per tant hem d'afegir una llibreria.
+
+```python
+import time
+
+```
+
+Aleshores
+
+```Python
+data_frame = [] #el treiem fora per no maxacar la llista
+cursor_dummy = None
+def crida():
+	stream= twitch.get_streams(first=20, language="ca", after=cursor)
+	dades = stream["data"]
+
+
+		for dada in dades:
+			user_id = dada["user_id"]
+			user_name = dada ["user_name"]
+			game_id = dada["game_id"]
+			game_name = dada["game_name"]
+			title = dada["title"]
+			viewers_count = dada["viewer_count"]
+			started_at = dada['started_at']
+			is_mature = dada["is_mature"]
+			captured_at = now
+
+
+df = pd.DataFrame({
+				   "captured_at": captured_at,
+				   "user_id": user_id,
+				   "user_name": user_name,
+				   "game_id": game_id,
+				   "game_name": game_name,
+				   "title": title,
+				   "viewer_count": viewer_count,
+				   "started_at": started_at,
+				   "is_mature": is_mature,
+				   }, index=[0])
+				   llista_dataframes.append(df)
+				print(len(llista_dataframes))
+				
+				
+				try:
+					streams["pagination"]["cursor"]:
+					cursor = streams["pagination"]["cursor"]
+					print(cursor)
+					print ("dormint")
+					time.slepp(1)
+					crida(cursor)
+				except KeyError:
+					print("ultima pagina")
+					pass
+			
+				
+
+
+	cursor = streams["pagination"]["cursor"]
+	crida(cursor) 
+crida(cursor_dummy)
+
+final_dataframe = pd.concat(llista_dataframe)
+final_dataframe.to_csv("export.csv", index = False)
+print (final_dataframe)
+```
